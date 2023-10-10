@@ -1,0 +1,26 @@
+{
+    "name": "romankolacek/sorted-linked-list",
+    "description": "Library providing sorted linked list data structure",
+    "keywords": ["linked", "list", "linkedList", "php"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "RomanKolacek",
+            "email": "roman.kolacek@seznam.cz"
+        }
+    ],
+    "require": {
+        "php": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "romankolacek\\": "src/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9"
+    }
+}
