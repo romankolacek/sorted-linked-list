@@ -6,90 +6,96 @@ use TypeError;
 
 abstract class SortedLinkedList
 {
-	private ?Node $head;
-	private bool $allowDuplicities;
+    private ?Node $head;
+    private bool $allowDuplicities;
+    protected string $listType;
 
-	public function __construct(bool $allowDuplicities = true)
-	{
-		$this->allowDuplicities = $allowDuplicities;
-		$this->head             = null;
-	}
+    public function __construct(bool $allowDuplicities)
+    {
+        $this->allowDuplicities = $allowDuplicities;
+        $this->head             = null;
+    }
 
-	protected function getHead(): ?Node
-	{
-		return $this->head;
-	}
+    protected function getHead(): ?Node
+    {
+        return $this->head;
+    }
 
-	public function print(string $separator = ', '): string
-	{
-		$result = '';
-		if ($this->head == null) {
-			return "List is empty";
-		}
+    public function print(string $separator = ', '): string
+    {
+        if ($this->isEmpty()) {
+            return "List is empty";
+        }
 
-		$currentNode = $this->head;
+        $result      = '';
+        $currentNode = $this->head;
 
-		while ($currentNode !== null) {
-			$separator   = $currentNode->getNext() !== null ? $separator : '';
-			$result     .= $currentNode->getData() . $separator;
-			$currentNode = $currentNode->getNext();
-		}
+        while ($currentNode !== null) {
+            $separator   = $currentNode->hasNext() ? $separator : '';
+            $result     .= $currentNode->getData() . $separator;
+            $currentNode = $currentNode->getNext();
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
-	public function add(mixed $data): void
-	{
-		try {
-			$this->validate($data);
+    public function add(mixed $data): void
+    {
+        try {
+            $this->validate($data);
 
-			$newNode = new Node($data);
-			if ($this->head == null) {
-				$this->head = $newNode;
+            $newNode = new Node($data);
+            if ($this->isEmpty()) {
+                $this->head = $newNode;
 
-				return;
-			}
+                return;
+            }
 
-			$currentNode = $this->head;
+            $currentNode = $this->head;
 
-			if ($currentNode->getData() === $newNode->getData() && ! $this->allowDuplicities) {
-				return;
-			}
+            if ($currentNode->getData() === $newNode->getData() && ! $this->allowDuplicities) {
+                return;
+            }
 
-			if ($currentNode->getData() > $newNode->getData()) {
-				$nextNode   = $currentNode;
-				$this->head = $newNode;
-				$this->head->setNext($nextNode);
+            if ($currentNode->getData() > $newNode->getData()) {
+                $nextNode   = $currentNode;
+                $this->head = $newNode;
+                $this->head->setNext($nextNode);
 
-				return;
-			}
+                return;
+            }
 
-			while ($currentNode->getNext() !== null) {
-				$nextNode = $currentNode->getNext();
+            while ($currentNode->hasNext()) {
+                $nextNode = $currentNode->getNext();
 
-				if ($nextNode->getData() === null) {
-					$currentNode->setNext($newNode);
+                if (! $nextNode->hasData()) {
+                    $currentNode->setNext($newNode);
 
-					return;
-				}
+                    return;
+                }
 
-				if ($newNode->getData() < $nextNode->getData()) {
-					$newNode->setNext($currentNode->getNext());
-					$currentNode->setNext($newNode);
+                if ($newNode->getData() < $nextNode->getData()) {
+                    $newNode->setNext($currentNode->getNext());
+                    $currentNode->setNext($newNode);
 
-					return;
-				}
+                    return;
+                }
 
-				$currentNode = $currentNode->getNext();
-			}
+                $currentNode = $currentNode->getNext();
+            }
 
-			$currentNode->setNext($newNode);
-		} catch (TypeError) {
-			throw new LinkedListException("Data must be an integer");
-		} catch (Throwable $exception) {
-			throw new LinkedListException($exception->getMessage());
-		}
-	}
+            $currentNode->setNext($newNode);
+        } catch (TypeError) {
+            throw new LinkedListException("Data must be an integer");
+        } catch (Throwable $exception) {
+            throw new LinkedListException($exception->getMessage());
+        }
+    }
 
-	abstract protected function validate(mixed $data): void;
+    private function isEmpty(): bool
+    {
+        return ! $this->getHead();
+    }
+
+    abstract protected function validate(mixed $data): void;
 }

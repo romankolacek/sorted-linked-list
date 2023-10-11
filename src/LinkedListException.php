@@ -1,6 +1,8 @@
 <?php
 namespace romankolacek;
 
-class LinkedListException extends \Exception
+use Exception;
+
+class LinkedListException extends Exception
 {
 }
