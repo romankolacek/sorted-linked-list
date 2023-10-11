@@ -3,31 +3,31 @@ namespace romankolacek;
 
 class Node
 {
-	private $data;
-	private $next;
+	private int|string $data;
+	private ?Node $next;
 
-	public function __construct($data)
+	public function __construct(int|string $data)
 	{
 		$this->data = $data;
 		$this->next = null;
 	}
 
-	public function getData()
+	public function getData(): int|string
 	{
 		return $this->data;
 	}
 
-	public function setData($data)
+	public function setData(int|string $data): void
 	{
 		$this->data = $data;
 	}
 
-	public function getNext()
+	public function getNext(): ?Node
 	{
 		return $this->next;
 	}
 
-	public function setNext($next)
+	public function setNext(?Node $next): void
 	{
 		$this->next = $next;
 	}
