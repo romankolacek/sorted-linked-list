@@ -12,7 +12,7 @@ class StringSortedLinkedList extends SortedLinkedList
     protected function validate(mixed $data): void
     {
         if (! is_string($data)) {
-            throw new LinkedListException(sprintf("Data must be a %s", $this->listType));
+            throw new LinkedListException(sprintf("Value must be type of %s", $this->listType));
         }
     }
 }

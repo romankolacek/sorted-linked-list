@@ -86,7 +86,7 @@ abstract class SortedLinkedList
 
             $currentNode->setNext($newNode);
         } catch (TypeError) {
-            throw new LinkedListException("Data must be an integer");
+            throw new LinkedListException(sprintf("Value must be type of %s", $this->listType));
         } catch (Throwable $exception) {
             throw new LinkedListException($exception->getMessage());
         }
