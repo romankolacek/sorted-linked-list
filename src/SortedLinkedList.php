@@ -7,10 +7,12 @@ use TypeError;
 abstract class SortedLinkedList
 {
 	private ?Node $head;
+	private bool $allowDuplicities;
 
-	public function __construct()
+	public function __construct(bool $allowDuplicities = true)
 	{
-		$this->head = null;
+		$this->allowDuplicities = $allowDuplicities;
+		$this->head             = null;
 	}
 
 	protected function getHead(): ?Node
@@ -49,6 +51,10 @@ abstract class SortedLinkedList
 			}
 
 			$currentNode = $this->head;
+
+			if ($currentNode->getData() === $newNode->getData() && ! $this->allowDuplicities) {
+				return;
+			}
 
 			if ($currentNode->getData() > $newNode->getData()) {
 				$nextNode   = $currentNode;

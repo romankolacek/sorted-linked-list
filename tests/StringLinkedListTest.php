@@ -41,7 +41,7 @@ class StringLinkedListTest extends TestCase {
         $this->assertEquals("Alfa, Bravo, Charlie, Delta, Echo", $list->print());
     }
 
-    public function testCorrectSortingUsingDescendingValuesInList(): void
+    public function testSortingUsingDescendingValuesInList(): void
     {
         $list = new StringSortedLinkedList();
         $list->add('Foxtrot');
@@ -53,7 +53,7 @@ class StringLinkedListTest extends TestCase {
         $this->assertEquals("Alfa, Bravo, Charlie, Delta, Echo, Foxtrot", $list->print());
     }
 
-    public function testCorrectSortingUsingSameValuesInList(): void
+    public function testSortingWithDuplicitiesInList(): void
     {
         $list = new StringSortedLinkedList();
         $list->add('Foxtrot');
@@ -65,7 +65,19 @@ class StringLinkedListTest extends TestCase {
         $this->assertEquals("Bravo, Bravo, Echo, Echo, Foxtrot, Foxtrot", $list->print());
     }
 
-    public function testCorrectSortingUsingStringyIntegersValuesInList(): void
+    public function testSortingWithoutDuplicitiesInList(): void
+    {
+        $list = new StringSortedLinkedList(false);
+        $list->add('Foxtrot');
+        $list->add('Foxtrot');
+        $list->add('Echo');
+        $list->add('Echo');
+        $list->add('Bravo');
+        $list->add('Bravo');
+        $this->assertEquals("Bravo, Echo, Foxtrot", $list->print());
+    }
+
+    public function testSortingUsingStringyIntegersValuesInList(): void
     {
         $list = new StringSortedLinkedList();
         $list->add('0');
