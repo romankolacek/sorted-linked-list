@@ -12,7 +12,7 @@ class Node
         $this->next = null;
     }
 
-    public function getData(): int|string
+    public function data(): int|string
     {
         return $this->data;
     }
@@ -22,7 +22,7 @@ class Node
         $this->data = $data;
     }
 
-    public function getNext(): ?Node
+    public function next(): ?Node
     {
         return $this->next;
     }

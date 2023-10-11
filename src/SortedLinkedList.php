@@ -16,7 +16,7 @@ abstract class SortedLinkedList
         $this->head             = null;
     }
 
-    protected function getHead(): ?Node
+    protected function head(): ?Node
     {
         return $this->head;
     }
@@ -28,12 +28,12 @@ abstract class SortedLinkedList
         }
 
         $result      = '';
-        $currentNode = $this->head;
+        $currentNode = $this->head();
 
         while ($currentNode !== null) {
             $separator   = $currentNode->hasNext() ? $separator : '';
-            $result     .= $currentNode->getData() . $separator;
-            $currentNode = $currentNode->getNext();
+            $result     .= $currentNode->data() . $separator;
+            $currentNode = $currentNode->next();
         }
 
         return $result;
@@ -51,13 +51,13 @@ abstract class SortedLinkedList
                 return;
             }
 
-            $currentNode = $this->head;
+            $currentNode = $this->head();
 
-            if ($currentNode->getData() === $newNode->getData() && ! $this->allowDuplicities) {
+            if ($currentNode->data() === $newNode->data() && ! $this->allowDuplicities) {
                 return;
             }
 
-            if ($currentNode->getData() > $newNode->getData()) {
+            if ($currentNode->data() > $newNode->data()) {
                 $nextNode   = $currentNode;
                 $this->head = $newNode;
                 $this->head->setNext($nextNode);
@@ -66,7 +66,7 @@ abstract class SortedLinkedList
             }
 
             while ($currentNode->hasNext()) {
-                $nextNode = $currentNode->getNext();
+                $nextNode = $currentNode->next();
 
                 if (! $nextNode->hasData()) {
                     $currentNode->setNext($newNode);
@@ -74,14 +74,14 @@ abstract class SortedLinkedList
                     return;
                 }
 
-                if ($newNode->getData() < $nextNode->getData()) {
-                    $newNode->setNext($currentNode->getNext());
+                if ($newNode->data() < $nextNode->data()) {
+                    $newNode->setNext($currentNode->next());
                     $currentNode->setNext($newNode);
 
                     return;
                 }
 
-                $currentNode = $currentNode->getNext();
+                $currentNode = $currentNode->next();
             }
 
             $currentNode->setNext($newNode);
@@ -92,9 +92,53 @@ abstract class SortedLinkedList
         }
     }
 
+    public function remove(mixed $data, bool $allOccurencies = false): void
+    {
+        try {
+            $this->validate($data);
+
+            if ($this->isEmpty()) {
+                return;
+            }
+
+            $currentNode = $this->head();
+
+            if ($currentNode->data() === $data) {
+                $this->head = $currentNode->next();
+
+                if (! $allOccurencies) {
+                    return;
+                }
+
+                $this->remove($data, $allOccurencies);
+            }
+
+            while ($currentNode && $currentNode->hasNext()) {
+                $nextNode = $currentNode->next();
+
+                if ($nextNode->data() === $data) {
+                    $currentNode->setNext($nextNode->next());
+
+                    if (! $allOccurencies) {
+                        return;
+                    }
+
+                    $this->remove($data, $allOccurencies);
+                }
+
+                $currentNode = $currentNode->next();
+            }
+
+        } catch (TypeError) {
+            throw new LinkedListException(sprintf("Value must be type of %s", $this->listType));
+        } catch (Throwable $exception) {
+            throw new LinkedListException($exception->getMessage());
+        }
+    }
+
     private function isEmpty(): bool
     {
-        return ! $this->getHead();
+        return ! $this->head();
     }
 
     abstract protected function validate(mixed $data): void;
