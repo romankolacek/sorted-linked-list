@@ -13,7 +13,7 @@ abstract class SortedLinkedList
     public function __construct(bool $allowDuplicities)
     {
         $this->allowDuplicities = $allowDuplicities;
-        $this->head             = null;
+        $this->setHead(null);
     }
 
     protected function head(): ?Node
@@ -21,22 +21,9 @@ abstract class SortedLinkedList
         return $this->head;
     }
 
-    public function print(string $separator = ', '): string
+    protected function setHead(?Node $head): void
     {
-        if ($this->isEmpty()) {
-            return "List is empty";
-        }
-
-        $result      = '';
-        $currentNode = $this->head();
-
-        while ($currentNode !== null) {
-            $separator   = $currentNode->hasNext() ? $separator : '';
-            $result     .= $currentNode->data() . $separator;
-            $currentNode = $currentNode->next();
-        }
-
-        return $result;
+        $this->head = $head;
     }
 
     public function add(mixed $data): void
@@ -46,7 +33,7 @@ abstract class SortedLinkedList
 
             $newNode = new Node($data);
             if ($this->isEmpty()) {
-                $this->head = $newNode;
+                $this->setHead($newNode);
 
                 return;
             }
@@ -58,9 +45,9 @@ abstract class SortedLinkedList
             }
 
             if ($currentNode->data() > $newNode->data()) {
-                $nextNode   = $currentNode;
-                $this->head = $newNode;
-                $this->head->setNext($nextNode);
+                $nextNode = $currentNode;
+                $this->setHead($newNode);
+                $this->head()->setNext($nextNode);
 
                 return;
             }
@@ -104,7 +91,7 @@ abstract class SortedLinkedList
             $currentNode = $this->head();
 
             if ($currentNode->data() === $data) {
-                $this->head = $currentNode->next();
+                $this->setHead($currentNode->next());
 
                 if (! $allOccurencies) {
                     return;
@@ -136,7 +123,102 @@ abstract class SortedLinkedList
         }
     }
 
-    private function isEmpty(): bool
+    public function contains(int|string $value): bool
+    {
+        try {
+            $currentNode = $this->head();
+            while ($currentNode !== null) {
+                if ($currentNode->data() === $value) {
+                    return true;
+                }
+
+                $currentNode = $currentNode->next();
+            }
+
+            return false;
+        } catch (Throwable) {
+            return false;
+        }
+    }
+
+    public function pop(): int|string|null
+    {
+        try {
+            if ($this->isEmpty()) {
+                return null;
+            }
+
+            $currentNode = $this->head();
+            while ($currentNode->hasNext()) {
+                $nextNode = $currentNode->next();
+
+                if (! $nextNode->hasNext()) {
+                    $currentNode->setNext(null);
+
+                    return $nextNode->data();
+                }
+
+                $currentNode = $currentNode->next();
+            }
+
+            $data = $this->head()->data();
+            $this->setHead(null);
+
+            return $data;
+        } catch (TypeError) {
+            throw new LinkedListException(sprintf("Value must be type of %s", $this->listType));
+        } catch (Throwable $exception) {
+            throw new LinkedListException($exception->getMessage());
+        }
+    }
+
+    public function shift(): int|string|null
+    {
+        if ($this->isEmpty()) {
+            return null;
+        }
+
+        $data = $this->head()->data();
+        $this->setHead($this->head()->hasNext() ? $this->head()->next() : null);
+
+        return $data;
+    }
+
+    public function toString(string $separator = ","): string
+    {
+        $result = $this->toArray();
+
+        return implode($separator, $result);
+    }
+
+    public function toArray(): array
+    {
+        $result = [];
+
+        if ($this->isEmpty()) {
+            return $result;
+        }
+
+        $currentNode = $this->head();
+        while ($currentNode !== null) {
+            $result[]    = $currentNode->data();
+            $currentNode = $currentNode->next();
+        }
+
+        return $result;
+    }
+
+    public function size(): int
+    {
+        return count($this->toArray());
+    }
+
+    public function clear(): void
+    {
+        $this->setHead(null);
+    }
+
+    public function isEmpty(): bool
     {
         return ! $this->head();
     }

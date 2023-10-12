@@ -8,7 +8,8 @@ class IntegerLinkedListTest extends TestCase {
     public function testEmptyList(): void
     {
         $list = new IntegerSortedLinkedList();
-        $this->assertEquals('List is empty', $list->print());
+        $this->assertEquals("", $list->toString());
+        $this->assertEquals(0, $list->size());
     }
 
     public function testThreeIntValuesInList(): void
@@ -17,7 +18,7 @@ class IntegerLinkedListTest extends TestCase {
         $list->add(1);
         $list->add(2);
         $list->add(3);
-        $this->assertEquals("1, 2, 3", $list->print());
+        $this->assertEquals("1,2,3", $list->toString());
     }
 
     public function testStringValueInIntegerList(): void
@@ -27,7 +28,7 @@ class IntegerLinkedListTest extends TestCase {
         $list->add(2);
 
         $this->expectException(LinkedListException::class);
-        $list->add('romankolacek');
+        $list->add("romankolacek");
     }
 
     public function testCorrectSortingInList(): void
@@ -39,7 +40,7 @@ class IntegerLinkedListTest extends TestCase {
         $list->add(5);
         $list->add(3);
         $list->add(6);
-        $this->assertEquals("1, 2, 3, 4, 5, 6", $list->print());
+        $this->assertEquals("1,2,3,4,5,6", $list->toString());
     }
 
     public function testCorrectSortingUsingDescendingValuesInList(): void
@@ -51,7 +52,7 @@ class IntegerLinkedListTest extends TestCase {
         $list->add(3);
         $list->add(2);
         $list->add(1);
-        $this->assertEquals("1, 2, 3, 4, 5, 6", $list->print());
+        $this->assertEquals("1,2,3,4,5,6", $list->toString());
     }
 
     public function testSortingWithDuplicitiesInList(): void
@@ -63,7 +64,7 @@ class IntegerLinkedListTest extends TestCase {
         $list->add(4);
         $list->add(1);
         $list->add(1);
-        $this->assertEquals("1, 1, 4, 4, 6, 6", $list->print());
+        $this->assertEquals("1,1,4,4,6,6", $list->toString());
     }
 
     public function testSortingWithoutDuplicitiesInList(): void
@@ -75,7 +76,7 @@ class IntegerLinkedListTest extends TestCase {
         $list->add(4);
         $list->add(1);
         $list->add(1);
-        $this->assertEquals("1, 4, 6", $list->print());
+        $this->assertEquals("1,4,6", $list->toString());
     }
 
     public function testCorrectSortingUsingNegativeValuesInList(): void
@@ -88,7 +89,7 @@ class IntegerLinkedListTest extends TestCase {
         $list->add(-4);
         $list->add(-1);
         $list->add(1);
-        $this->assertEquals("-6, -4, -1, 0, 1, 4, 6", $list->print());
+        $this->assertEquals("-6,-4,-1,0,1,4,6", $list->toString());
     }
 
     public function testPrintSeparator(): void
@@ -98,6 +99,6 @@ class IntegerLinkedListTest extends TestCase {
         $list->add(1);
         $list->add(2);
         $list->add(3);
-        $this->assertEquals("1|2|3|5", $list->print('|'));
+        $this->assertEquals("1|2|3|5", $list->toString("|"));
     }
 }

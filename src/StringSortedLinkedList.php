@@ -5,7 +5,7 @@ class StringSortedLinkedList extends SortedLinkedList
 {
     public function __construct(bool $allowDuplicities = true)
     {
-        $this->listType = 'string';
+        $this->listType = "string";
         parent::__construct($allowDuplicities);
     }
 

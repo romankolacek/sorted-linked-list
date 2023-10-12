@@ -5,7 +5,7 @@ class IntegerSortedLinkedList extends SortedLinkedList
 {
     public function __construct(bool $allowDuplicities = true)
     {
-        $this->listType = 'integer';
+        $this->listType = "integer";
         parent::__construct($allowDuplicities);
     }
 
