@@ -79,7 +79,7 @@ abstract class SortedLinkedList
         }
     }
 
-    public function remove(mixed $data, bool $allOccurencies = false): void
+    public function remove(mixed $data, bool $allOccurrences = false): void
     {
         try {
             $this->validate($data);
@@ -93,11 +93,11 @@ abstract class SortedLinkedList
             if ($currentNode->data() === $data) {
                 $this->setHead($currentNode->next());
 
-                if (! $allOccurencies) {
+                if (! $allOccurrences) {
                     return;
                 }
 
-                $this->remove($data, $allOccurencies);
+                $this->remove($data, $allOccurrences);
             }
 
             while ($currentNode && $currentNode->hasNext()) {
@@ -106,11 +106,11 @@ abstract class SortedLinkedList
                 if ($nextNode->data() === $data) {
                     $currentNode->setNext($nextNode->next());
 
-                    if (! $allOccurencies) {
+                    if (! $allOccurrences) {
                         return;
                     }
 
-                    $this->remove($data, $allOccurencies);
+                    $this->remove($data, $allOccurrences);
                 }
 
                 $currentNode = $currentNode->next();
