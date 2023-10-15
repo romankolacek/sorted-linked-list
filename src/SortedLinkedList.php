@@ -100,7 +100,7 @@ abstract class SortedLinkedList
                 $this->remove($data, $allOccurrences);
             }
 
-            while ($currentNode && $currentNode->hasNext()) {
+            while ($currentNode && $currentNode->hasNext() && $currentNode->next()->data() <= $data) {
                 $nextNode = $currentNode->next();
 
                 if ($nextNode->data() === $data) {
@@ -110,7 +110,7 @@ abstract class SortedLinkedList
                         return;
                     }
 
-                    $this->remove($data, $allOccurrences);
+                    continue;
                 }
 
                 $currentNode = $currentNode->next();
