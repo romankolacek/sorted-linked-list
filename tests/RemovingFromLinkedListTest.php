@@ -51,4 +51,27 @@ class RemovingFromLinkedListTest extends TestCase {
         $this->assertEquals("", $list->toString());
         $this->assertEquals(0, $list->size());
     }
+
+    public function testRemovingWithDescendingIntegerDuplicitiesInList(): void
+    {
+        $list = new IntegerSortedLinkedList(false, true);
+        $list->add(1);
+        $list->add(1);
+        $list->add(4);
+        $list->add(4);
+        $list->add(6);
+        $list->add(6);
+        $list->remove(4);
+        $this->assertEquals("6,6,4,1,1", $list->toString());
+
+        $list->remove(6, true);
+        $this->assertEquals("4,1,1", $list->toString());
+
+        $list->remove(1, true);
+        $this->assertEquals("4", $list->toString());
+
+        $list->remove(4, true);
+        $this->assertEquals("", $list->toString());
+        $this->assertEquals(0, $list->size());
+    }
 }

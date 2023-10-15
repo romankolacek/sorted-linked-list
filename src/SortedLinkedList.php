@@ -8,11 +8,14 @@ abstract class SortedLinkedList
 {
     private ?Node $head;
     private bool $allowDuplicities;
+    private bool $isAscending  = true;
     protected string $listType;
 
-    public function __construct(bool $allowDuplicities)
+
+    public function __construct(bool $isAscending, bool $allowDuplicities)
     {
         $this->allowDuplicities = $allowDuplicities;
+        $this->isAscending      = $isAscending;
         $this->setHead(null);
     }
 
@@ -44,7 +47,7 @@ abstract class SortedLinkedList
                 return;
             }
 
-            if ($currentNode->data() > $newNode->data()) {
+            if (($currentNode->data() > $newNode->data() && $this->isAscending) || ($currentNode->data() < $newNode->data() && ! $this->isAscending)) {
                 $nextNode = $currentNode;
                 $this->setHead($newNode);
                 $this->head()->setNext($nextNode);
@@ -61,7 +64,7 @@ abstract class SortedLinkedList
                     return;
                 }
 
-                if ($newNode->data() < $nextNode->data()) {
+                if ($newNode->data() < $nextNode->data() && $this->isAscending || $newNode->data() > $nextNode->data() && ! $this->isAscending) {
                     $newNode->setNext($currentNode->next());
                     $currentNode->setNext($newNode);
 
@@ -100,7 +103,7 @@ abstract class SortedLinkedList
                 $this->remove($data, $allOccurrences);
             }
 
-            while ($currentNode && $currentNode->hasNext() && $currentNode->next()->data() <= $data) {
+            while ($currentNode && $currentNode->hasNext() && (($currentNode->next()->data() <= $data && $this->isAscending) || ($currentNode->next()->data() >= $data && ! $this->isAscending))) {
                 $nextNode = $currentNode->next();
 
                 if ($nextNode->data() === $data) {

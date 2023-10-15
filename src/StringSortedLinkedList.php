@@ -3,10 +3,10 @@ namespace romankolacek;
 
 class StringSortedLinkedList extends SortedLinkedList
 {
-    public function __construct(bool $allowDuplicities = true)
+    public function __construct(bool $isAscending = true, bool $allowDuplicities = true)
     {
         $this->listType = "string";
-        parent::__construct($allowDuplicities);
+        parent::__construct($isAscending, $allowDuplicities);
     }
 
     protected function validate(mixed $data): void

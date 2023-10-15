@@ -69,7 +69,7 @@ class IntegerLinkedListTest extends TestCase {
 
     public function testSortingWithoutDuplicitiesInList(): void
     {
-        $list = new IntegerSortedLinkedList(false);
+        $list = new IntegerSortedLinkedList(true, false);
         $list->add(6);
         $list->add(6);
         $list->add(4);
@@ -100,5 +100,17 @@ class IntegerLinkedListTest extends TestCase {
         $list->add(2);
         $list->add(3);
         $this->assertEquals("1|2|3|5", $list->toString("|"));
+    }
+
+    public function testSortingDescendingInList(): void
+    {
+        $list = new IntegerSortedLinkedList(false, false);
+        $list->add(1);
+        $list->add(1);
+        $list->add(4);
+        $list->add(4);
+        $list->add(6);
+        $list->add(6);
+        $this->assertEquals("6,4,1", $list->toString());
     }
 }

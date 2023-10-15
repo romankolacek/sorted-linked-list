@@ -10,6 +10,12 @@ You can use two types of linked lists
 - StringSortedLinkedList
 -- accepts only string values, in other way LinkedListException is thrown
 
+While creating *SortedLinkedList you can choose if you want ASC/DESC sorting and duplicities.
+Default is ASC sorting and allowed duplicities.
+```php
+$sortedLinkedList = new IntegerSortedLinkedList(isAscending: true, allowDuplicities: true);
+```
+
 ## Example of IntegerSortedLinkedList
 ```php
 use romankolacek\SortedLinkedList;
@@ -45,19 +51,19 @@ $sortedLinkedList->clear();
 ## Example of StringSortedLinkedList
 It is the same as IntegerSortedLinkedList, just validates strings as allowed values in method add()
 ```php 
-$sortedLinkedList = new StringSortedLinkedList(true); //allow duplicit values
+$sortedLinkedList = new StringSortedLinkedList(false, true); // DESC sorting and allow duplicit values
 $sortedLinkedList->add("Alfa");
 $sortedLinkedList->add("Bravo");
 $sortedLinkedList->add("Charlie");
 $sortedLinkedList->add(42) // SortedLinkedListException is thrown
 
 # get result as string
-$stringResult = $sortedLinkedList->toString("/"); // "Alfa/Bravo/Charlie"
+$stringResult = $sortedLinkedList->toString("/"); // "Charlie/Bravo/Alfa"
 ...
 ```
 
 ### LinkedLists accepts duplicities as default.
 ```php
 new IntegerSortedLinkedList() // accepts duplicities => 1, 1, 2, 3, 3, 4
-new IntegerSortedLinkedList(false) // don't accept duplicities => 1, 2, 3
+new IntegerSortedLinkedList(true, false) // don't accept duplicities => 1, 2, 3
 ```

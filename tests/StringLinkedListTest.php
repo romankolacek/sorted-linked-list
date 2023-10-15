@@ -68,7 +68,7 @@ class StringLinkedListTest extends TestCase {
 
     public function testSortingWithoutDuplicitiesInList(): void
     {
-        $list = new StringSortedLinkedList(false);
+        $list = new StringSortedLinkedList(true, false);
         $list->add("Foxtrot");
         $list->add("Foxtrot");
         $list->add("Echo");
